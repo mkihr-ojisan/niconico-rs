@@ -9,6 +9,8 @@ pub enum Error {
     InvalidResponse { message: Cow<'static, str> },
     #[error("network error: {:#?}", .0)]
     NetworkError(Option<reqwest::Error>),
+    #[error("login is required")]
+    LoginRequired,
 }
 impl From<reqwest::Error> for Error {
     fn from(e: reqwest::Error) -> Self {
