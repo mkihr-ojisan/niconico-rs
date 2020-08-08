@@ -2,20 +2,34 @@ use crate::*;
 
 mod login;
 
+/// A session in which all requests are made.
 #[derive(Debug, Clone)]
 pub struct Session {
     client: reqwest::Client,
 
+    /// The value of cookie `user_session` obtained on login.
     cookie_user_session: Option<String>,
+    /// The language to include in every request as `Accept-Language`.
     language: Language,
 }
 impl Session {
+    /// Creates a new session. `user_agent` should be the name of the application.
+    ///
+    /// # Panics
+    /// This method panics if it cannot create a HTTP client.
+    ///
+    /// # Examples
+    /// ```
+    /// # use niconico::*;
+    /// const USER_AGENT: &str = concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION"));
+    /// let session = Session::new(USER_AGENT, Language::Japanese);
+    /// ```
     pub fn new<'a, T>(user_agent: T, language: Language) -> Session
     where
         T: Into<Option<&'a str>>,
     {
         let mut headers = reqwest::header::HeaderMap::new();
-        headers.insert("Accept-Language", language.into_header_value());
+        headers.insert("Accept-Language", language.into());
 
         Session {
             client: reqwest::ClientBuilder::new()
@@ -84,8 +98,8 @@ pub enum Language {
     English,
     Chinese,
 }
-impl Language {
-    pub fn into_header_value(self) -> reqwest::header::HeaderValue {
+impl Into<reqwest::header::HeaderValue> for Language {
+    fn into(self) -> reqwest::header::HeaderValue {
         match self {
             Language::Japanese => reqwest::header::HeaderValue::from_static("ja"),
             Language::English => reqwest::header::HeaderValue::from_static("en"),
