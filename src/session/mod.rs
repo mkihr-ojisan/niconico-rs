@@ -35,8 +35,8 @@ impl Session {
     pub fn get_cookie_user_session(&self) -> Option<&str> {
         self.cookie_user_session.as_deref()
     }
-    pub fn set_cookie_user_session(&mut self, cookie_user_session: impl Into<Cow<'static, str>>) {
-        self.cookie_user_session = Some(cookie_user_session.into().into_owned());
+    pub fn set_cookie_user_session(&mut self, cookie_user_session: &str) {
+        self.cookie_user_session = Some(cookie_user_session.to_owned());
     }
     pub fn is_logged_in(&self) -> bool {
         self.cookie_user_session.is_some()
