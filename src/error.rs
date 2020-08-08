@@ -5,9 +5,9 @@ use thiserror::Error;
 pub enum Error {
     #[error("wrong login information")]
     WrongLoginInfo,
-    #[error("received invalid response: {}", .message)]
+    #[error("received invalid response: {message}")]
     InvalidResponse { message: Cow<'static, str> },
-    #[error("network error: {:#?}", .0)]
+    #[error("network error: {0:#?}")]
     NetworkError(Option<reqwest::Error>),
     #[error("login is required")]
     LoginRequired,
