@@ -16,7 +16,7 @@ pub struct UserDetails {
     pub level: UserLevel,
 
     pub is_following: Option<bool>,
-    pub create_patronizing_score: Option<u64>,
+    pub creator_patronizing_score: Option<u64>,
     pub is_mail_bounced: Option<bool>,
     pub niconico_point: Option<u64>,
     /* TODO: research
@@ -74,7 +74,7 @@ impl UserDetails {
                     ),
                 },
                 is_following: None,
-                create_patronizing_score: Some(json_extract!(
+                creator_patronizing_score: Some(json_extract!(
                     user_data,
                     as_u64,
                     ["creatorPatronizingScore"]
@@ -123,7 +123,7 @@ impl UserDetails {
                     as_bool,
                     ["userDetails"]["userDetails"]["followStatus"]["isFollowing"]
                 )),
-                create_patronizing_score: None,
+                creator_patronizing_score: None,
                 is_mail_bounced: None,
                 niconico_point: None,
             })
