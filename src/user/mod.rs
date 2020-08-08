@@ -14,7 +14,7 @@ impl User {
             User::UserId(id) => Cow::Owned(format!("https://www.nicovideo.jp/user/{}", id)),
         }
     }
-    pub async fn fetch_detail(self, session: &mut Session) -> Result<details::UserDetails> {
+    pub async fn fetch_details(self, session: &mut Session) -> Result<details::UserDetails> {
         details::UserDetails::fetch(session, self).await
     }
 }
