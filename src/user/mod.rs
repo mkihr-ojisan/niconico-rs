@@ -8,7 +8,7 @@ pub enum User {
     /// The user who is logged in in the session.
     LoginUser,
     /// The user specified by ID.
-    UserId(u32),
+    UserId(u64),
 }
 impl User {
     /// Gets the url of the user page.
