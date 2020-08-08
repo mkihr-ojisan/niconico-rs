@@ -1,23 +1,39 @@
 use crate::*;
 
+/// Represents details of a user.
 #[derive(Debug, Clone)]
 pub struct UserDetails {
+    /// The `User` that represents this user.
     pub user: User,
 
+    /// The self introduction of this user.
     pub description: UserDescription,
+    /// The number of users who this user follows.
     pub followee_count: u64,
+    /// The number of users who follow this user.
     pub follower_count: u64,
+    /// The profile icons of this user.
     pub icons: UserIcons,
+    /// The unique id number of this user.
     pub id: u64,
+    /// Whether the login user can read the nicorepo of this user.
     pub is_nicorepo_readable: bool,
+    /// Whether this user is a premium user.
     pub is_premium: bool,
+    /// The nickname of this user.
     pub nickname: String,
+    /// The version of niconico when this user was registered.
     pub registered_version: String,
+    /// The level of this user.
     pub level: UserLevel,
 
+    /// Whether the login user is following this user. Available only if this user is not the login user.
     pub is_following: Option<bool>,
+    /// The creator patronizing score (クリエイター奨励スコア) of this user. Available only if this user is the login user.
     pub creator_patronizing_score: Option<u64>,
+    /// Unknown field. Available only if this user is the login user.
     pub is_mail_bounced: Option<bool>,
+    /// The number of niconico points this user has. Available only if this user is the login user.
     pub niconico_point: Option<u64>,
     /* TODO: research
     sns: [],
@@ -26,6 +42,7 @@ pub struct UserDetails {
     */
 }
 impl UserDetails {
+    /// Fetches the details of the user. See also [`User::fetch_details`](super::User::fetch_details).
     pub async fn fetch(session: &mut Session, user: User) -> Result<UserDetails> {
         html_extractor::html_extractor! {
             UserPage {
@@ -134,20 +151,31 @@ impl UserDetails {
         }
     }
 }
+/// Represents the self introduction of a user.
 #[derive(Debug, Clone)]
 pub struct UserDescription {
+    /// The self introduction text is decorated with HTML.
     pub full: String,
+    /// The raw text of the self introduction.
     pub stripped: String,
 }
+/// Represents the profile icons of a user.
 #[derive(Debug, Clone)]
 pub struct UserIcons {
+    /// The URL of the large icon. (150x150)
     pub large: String,
+    /// The URL of the small icon. (50x50)
     pub small: String,
 }
+/// Represents the level of a user.
 #[derive(Debug, Clone)]
 pub struct UserLevel {
+    /// The current level.
     pub current_level: u64,
+    /// The current experience.
     pub current_level_experience: u64,
+    /// The experience required to reach the next level.
     pub next_level_experience: u64,
+    /// The experience to the next level.
     pub next_level_threshold_experience: u64,
 }
