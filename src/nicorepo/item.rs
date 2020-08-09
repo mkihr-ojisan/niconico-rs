@@ -1,6 +1,7 @@
 use crate::*;
 
 /// Represents an item of nicorepo.
+#[derive(Debug, Clone)]
 pub struct NicorepoItem {
     /// The ID number of the item.
     pub id: String,
@@ -60,6 +61,7 @@ impl NicorepoItem {
 }
 
 /// Represents a sender of a nicorepo item.
+#[derive(Debug, Clone)]
 pub struct NicorepoSender {
     /// The type of the sender.
     pub sender_type: NicorepoSenderType,
@@ -73,6 +75,7 @@ pub struct NicorepoSender {
     pub icon_url: String,
 }
 /// Represents a type of a nicorepo item sender.
+#[derive(Debug, Clone, Copy, Eq, PartialEq)]
 pub enum NicorepoSenderType {
     /// A user.
     User,
@@ -82,6 +85,7 @@ pub enum NicorepoSenderType {
     Community,
 }
 /// Represents a content of a nicorepo item.
+#[derive(Debug, Clone)]
 pub struct NicorepoContent {
     /// The type of the content.
     pub content_type: NicorepoContentType,
@@ -93,6 +97,7 @@ pub struct NicorepoContent {
     pub thumbnail_url: String,
 }
 /// Represents a type of a nicorepo item content.
+#[derive(Debug, Clone, Copy, Eq, PartialEq)]
 pub enum NicorepoContentType {
     /// A video. (ニコニコ動画)
     Video,
