@@ -19,11 +19,11 @@ pub mod nicorepo_stream;
 /// }
 /// # }
 /// ```
-pub fn stream<'a>(
-    session: &'a Session,
+pub fn stream(
+    session: &Session,
     content_filter: ContentFilter,
     sender_filter: SenderFilter,
-) -> nicorepo_stream::NicorepoStream<'a> {
+) -> nicorepo_stream::NicorepoStream {
     nicorepo_stream::NicorepoStream::new(session, content_filter, sender_filter)
 }
 
