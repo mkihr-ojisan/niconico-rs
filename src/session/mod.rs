@@ -207,7 +207,9 @@ impl Into<reqwest::header::HeaderValue> for Language {
 }
 
 pub(crate) struct RequestOptions {
+    /// Whether cookie `user_session` is included in requests.
     pub cookie_user_session: bool,
+    /// Whether header `X-Frontend-Id` is include in requests.
     pub header_x_frontend_id: bool,
 }
 impl Default for RequestOptions {
