@@ -15,7 +15,7 @@ pub mod nicorepo_stream;
 /// # session.set_cookie_user_session(env!("NICO_SID"));
 /// let mut nicorepo_stream = nicorepo::stream(&session, ContentFilter::All, SenderFilter::All);
 /// while let Some(item) = nicorepo_stream.next().await {
-///     println!("{:#?}", item);
+///     println!("{:#?}", item.unwrap());
 /// }
 /// # }
 /// ```
