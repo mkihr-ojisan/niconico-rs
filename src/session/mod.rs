@@ -70,8 +70,8 @@ impl Session {
     /// # Examples
     /// ```
     /// # use niconico::*;
-    /// # const EMAIL_OR_TEL: &str = env!("NICONICO_EMAIL_OR_TEL");
-    /// # const PASSWORD: &str = env!("NICONICO_PASSWORD");
+    /// # const EMAIL_OR_TEL: &str = env!("NICO_EMAIL");
+    /// # const PASSWORD: &str = env!("NICO_PASS");
     /// # const USER_AGENT: &str = concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION"));
     /// # #[tokio::main]
     /// # async fn main() {
