@@ -70,7 +70,11 @@ impl<'a> NicorepoStream<'a> {
         last_item_id: Option<String>,
     ) -> Result<(VecDeque<NicorepoItem>, bool)> {
         let url = gen_url(content_filter, sender_filter, last_item_id);
-        let json = session.get_json(&url, None).await?;
+        let json = session
+            .get_json(&url, None)
+            .await
+            .context("cannot fetch nicorepo items")
+            .context(Error::InvalidResponse)?;
 
         let status = json_extract!(json, as_u64, ["meta"]["status"]);
         match status {
