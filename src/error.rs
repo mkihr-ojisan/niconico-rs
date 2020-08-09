@@ -8,8 +8,8 @@ pub enum Error {
     #[error("wrong login information")]
     WrongLoginInfo,
     /// The desired data cannot be extracted from the response . This error should not occur.
-    #[error("received invalid response: {message}")]
-    InvalidResponse { message: Cow<'static, str> },
+    #[error("received invalid response")]
+    InvalidResponse,
     /// Login is required.
     #[error("login is required")]
     LoginRequired,
