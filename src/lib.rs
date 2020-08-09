@@ -13,4 +13,9 @@ pub use user::User;
 use anyhow::{anyhow, bail, ensure, Context, Result};
 use chrono::{DateTime, FixedOffset};
 use futures::Stream;
-use std::{borrow::Cow, future::Future, pin::Pin, task};
+use std::{
+    borrow::Cow,
+    future::Future,
+    pin::Pin,
+    task::{Context as TaskContext, Poll},
+};

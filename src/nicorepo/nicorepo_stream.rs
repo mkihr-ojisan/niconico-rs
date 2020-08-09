@@ -1,6 +1,5 @@
 use super::{item::NicorepoItem, *};
 use std::collections::VecDeque;
-use task::{Context, Poll};
 
 type FetchNicorepoFuture<'a> =
     Pin<Box<dyn Future<Output = Result<(VecDeque<NicorepoItem>, bool)>> + 'a>>;
@@ -17,7 +16,7 @@ pub struct NicorepoStream<'a> {
 }
 impl<'a> Stream for NicorepoStream<'a> {
     type Item = Result<NicorepoItem>;
-    fn poll_next(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Option<Self::Item>> {
+    fn poll_next(mut self: Pin<&mut Self>, cx: &mut TaskContext<'_>) -> Poll<Option<Self::Item>> {
         if self.buf.is_empty() && self.future.is_none() && !self.is_finished {
             self.future = Some(Box::pin(Self::gen_future(
                 self.session,
@@ -70,8 +69,6 @@ impl<'a> NicorepoStream<'a> {
         sender_filter: SenderFilter,
         last_item_id: Option<String>,
     ) -> Result<(VecDeque<NicorepoItem>, bool)> {
-        use anyhow::Context;
-
         let url = gen_url(content_filter, sender_filter, last_item_id);
         let json = session.get_json(&url, true).await?;
 
