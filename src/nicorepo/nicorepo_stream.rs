@@ -34,7 +34,7 @@ impl<'a> Stream for NicorepoStream<'a> {
                             self.buf = buf;
                             self.is_finished = is_finished;
                         }
-                        Err(err) => return Poll::Ready(Some(Err(err.into()))),
+                        Err(err) => return Poll::Ready(Some(Err(err))),
                     }
                 }
             }
