@@ -118,6 +118,9 @@ impl Session {
                 ),
             );
         }
+        if options.header_x_frontend_id {
+            req = req.header("X-Frontend-Id", 6);
+        }
         req
     }
     /// Gets html and extracts data from it.
@@ -180,6 +183,9 @@ impl Session {
                 ),
             );
         }
+        if options.header_x_frontend_id {
+            req = req.header("X-Frontend-Id", 6);
+        }
         req
     }
 }
@@ -202,11 +208,13 @@ impl Into<reqwest::header::HeaderValue> for Language {
 
 pub(crate) struct RequestOptions {
     pub cookie_user_session: bool,
+    pub header_x_frontend_id: bool,
 }
 impl Default for RequestOptions {
     fn default() -> Self {
         RequestOptions {
             cookie_user_session: true,
+            header_x_frontend_id: false,
         }
     }
 }
