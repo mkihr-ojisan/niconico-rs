@@ -52,12 +52,13 @@ impl Session {
     /// ```no_run
     /// # use niconico::*;
     /// # #[tokio::main]
-    /// # async fn main() {
+    /// # async fn main() -> anyhow::Result<()> {
     /// # const USER_AGENT: &str = concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION"));
     /// # let mut session = Session::new(USER_AGENT, Language::Japanese);
     /// const EMAIL_OR_TEL: &str = env!("NICO_EMAIL");
     /// const PASSWORD: &str = env!("NICO_PASS");
-    /// session.login(EMAIL_OR_TEL, PASSWORD).await.unwrap();
+    /// session.login(EMAIL_OR_TEL, PASSWORD).await?;
+    /// # Ok(())
     /// # }
     /// ```
     pub async fn login(&mut self, email_or_tel: &str, password: &str) -> Result<()> {
@@ -74,15 +75,16 @@ impl Session {
     /// # const PASSWORD: &str = env!("NICO_PASS");
     /// # const USER_AGENT: &str = concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION"));
     /// # #[tokio::main]
-    /// # async fn main() {
+    /// # async fn main() -> anyhow::Result<()> {
     /// let mut session = Session::new(USER_AGENT, Language::Japanese);
     /// assert_eq!(session.get_cookie_user_session(), None);
     ///
-    /// session.login(EMAIL_OR_TEL, PASSWORD).await.unwrap();
+    /// session.login(EMAIL_OR_TEL, PASSWORD).await?;
     /// let cookie = session.get_cookie_user_session().unwrap();
     ///
     /// let mut new_session = Session::new(USER_AGENT, Language::Japanese);
     /// new_session.set_cookie_user_session(cookie);
+    /// # Ok(())
     /// # }
     /// ```
     pub fn get_cookie_user_session(&self) -> Option<&str> {

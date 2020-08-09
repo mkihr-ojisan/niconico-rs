@@ -10,13 +10,14 @@ pub mod nicorepo_stream;
 /// # use nicorepo::*;
 /// # const USER_AGENT: &str = concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION"));
 /// # #[tokio::main]
-/// # async fn main() {
+/// # async fn main() -> anyhow::Result<()> {
 /// # let mut session = Session::new(USER_AGENT, Language::Japanese);
 /// # session.set_cookie_user_session(env!("NICO_SID"));
 /// let mut nicorepo_stream = nicorepo::stream(&session, ContentFilter::All, SenderFilter::All);
 /// while let Some(item) = nicorepo_stream.next().await {
-///     println!("{:#?}", item.unwrap());
+///     println!("{:#?}", item?);
 /// }
+/// # Ok(())
 /// # }
 /// ```
 pub fn stream(
