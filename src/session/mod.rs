@@ -117,8 +117,18 @@ impl Session {
     where
         T: html_extractor::HtmlExtractor,
     {
-        let html_str = self.get(url, include_cookie).send().await?.text().await?;
-        let data = html_extractor::HtmlExtractor::extract_from_str(&html_str)?;
+        let html_str = self
+            .get(url, include_cookie)
+            .send()
+            .await
+            .with_context(|| format!("cannot fetch from `{}`", url))
+            .context(Error::InvalidResponse)?
+            .text()
+            .await
+            .with_context(|| format!("cannot fetch from `{}`", url))
+            .context(Error::InvalidResponse)?;
+        let data = html_extractor::HtmlExtractor::extract_from_str(&html_str)
+            .context(Error::InvalidResponse)?;
         Ok(data)
     }
     /// Makes a POST request. Includes cookie `user_session` if `include_cookie` is `true`.
