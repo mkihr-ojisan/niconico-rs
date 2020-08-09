@@ -50,9 +50,10 @@ impl UserDetails {
             }
         }
 
-        if user == User::LoginUser && !session.is_logged_in() {
-            return Err(Error::LoginRequired.into());
-        }
+        ensure!(
+            user != User::LoginUser || session.is_logged_in(),
+            Error::LoginRequired
+        );
 
         let user_page: UserPage = session.get_data(&user.user_page_url(), true).await?;
         let data: serde_json::Value = serde_json::from_str(&user_page.js_initial_user_page_data)?;
