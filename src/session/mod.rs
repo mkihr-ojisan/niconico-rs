@@ -55,8 +55,8 @@ impl Session {
     /// # async fn main() {
     /// # const USER_AGENT: &str = concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION"));
     /// # let mut session = Session::new(USER_AGENT, Language::Japanese);
-    /// const EMAIL_OR_TEL: &str = env!("NICONICO_EMAIL_OR_TEL");
-    /// const PASSWORD: &str = env!("NICONICO_PASSWORD");
+    /// const EMAIL_OR_TEL: &str = env!("NICO_EMAIL");
+    /// const PASSWORD: &str = env!("NICO_PASS");
     /// session.login(EMAIL_OR_TEL, PASSWORD).await.unwrap();
     /// # }
     /// ```
@@ -82,7 +82,7 @@ impl Session {
     /// let cookie = session.get_cookie_user_session().unwrap();
     ///
     /// let mut new_session = Session::new(USER_AGENT, Language::Japanese);
-    /// new_session.set_cookie_user_session(cookie.to_owned());
+    /// new_session.set_cookie_user_session(cookie);
     /// # }
     /// ```
     pub fn get_cookie_user_session(&self) -> Option<&str> {
