@@ -2,13 +2,16 @@ use super::{item::NicorepoItem, *};
 use std::collections::VecDeque;
 use task::{Context, Poll};
 
+type FetchNicorepoFuture<'a> =
+    Pin<Box<dyn Future<Output = Result<(VecDeque<NicorepoItem>, bool)>> + 'a>>;
+
 /// Streams nicorepo items. See also [nicorepo::stream()](super::stream).
 pub struct NicorepoStream<'a> {
     session: &'a Session,
     content_filter: ContentFilter,
     sender_filter: SenderFilter,
     last_item_id: Option<String>,
-    future: Option<Pin<Box<dyn Future<Output = Result<(VecDeque<NicorepoItem>, bool)>> + 'a>>>,
+    future: Option<FetchNicorepoFuture<'a>>,
     buf: VecDeque<NicorepoItem>,
     is_finished: bool,
 }
