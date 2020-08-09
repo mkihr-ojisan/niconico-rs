@@ -43,7 +43,7 @@ pub struct UserDetails {
 }
 impl UserDetails {
     /// Fetches the details of the user. See also [`User::fetch_details`](super::User::fetch_details).
-    pub async fn fetch(session: &mut Session, user: User) -> Result<UserDetails> {
+    pub async fn fetch(session: &Session, user: User) -> Result<UserDetails> {
         html_extractor::html_extractor! {
             UserPage {
                 js_initial_user_page_data: String = (attr["data-initial-data"] of "#js-initial-userpage-data")

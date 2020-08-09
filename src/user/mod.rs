@@ -19,7 +19,7 @@ impl User {
         }
     }
     /// Fetches the details of this user.
-    pub async fn fetch_details(self, session: &mut Session) -> Result<details::UserDetails> {
+    pub async fn fetch_details(self, session: &Session) -> Result<details::UserDetails> {
         details::UserDetails::fetch(session, self).await
     }
 }
