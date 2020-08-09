@@ -48,13 +48,13 @@ impl User {
     /// # let mut session = Session::new(USER_AGENT, Language::Japanese);
     /// # session.set_cookie_user_session(env!("NICO_SID"));
     ///
-    /// let mut login_user_followings = User::LoginUser.stream_following_users(&session);
-    /// while let Some(user) = login_user_followings.next().await {
+    /// let mut login_user_following_users = User::LoginUser.stream_following_users(&session);
+    /// while let Some(user) = login_user_following_users.next().await {
     ///    println!("{:#?}", user);
     /// }
     ///
-    /// let mut user_2_followings = User::UserId(2).stream_following_users(&session);
-    /// while let Some(user) = user_2_followings.next().await {
+    /// let mut user_2_following_users = User::UserId(2).stream_following_users(&session);
+    /// while let Some(user) = user_2_following_users.next().await {
     ///    println!("{:#?}", user);
     /// }
     /// # Ok(())
