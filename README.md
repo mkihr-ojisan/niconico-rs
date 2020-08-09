@@ -19,6 +19,6 @@ let user_1_details = User::UserId(1).fetch_details(&session).await?;
 ```rust
 let mut nicorepo_stream = nicorepo::stream(&session, ContentFilter::All, SenderFilter::All);
 while let Some(item) = nicorepo_stream.next().await {
-    println!("{:#?}", item);
+    println!("{:#?}", item?);
 }
 ```
