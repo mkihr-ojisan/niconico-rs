@@ -131,6 +131,25 @@ impl Session {
             .context(Error::InvalidResponse)?;
         Ok(data)
     }
+    /// Gets json and parses it.
+    pub(crate) async fn get_json(
+        &self,
+        url: &str,
+        include_cookie: bool,
+    ) -> Result<serde_json::Value> {
+        let json_str = self
+            .get(url, include_cookie)
+            .send()
+            .await
+            .with_context(|| format!("cannot fetch from `{}`", url))
+            .context(Error::InvalidResponse)?
+            .text()
+            .await
+            .with_context(|| format!("cannot fetch from `{}`", url))
+            .context(Error::InvalidResponse)?;
+        let json = serde_json::from_str(&json_str).context(Error::InvalidResponse)?;
+        Ok(json)
+    }
     /// Makes a POST request. Includes cookie `user_session` if `include_cookie` is `true`.
     pub(crate) fn post(&self, url: &str, include_cookie: bool) -> reqwest::RequestBuilder {
         let mut req = self.client.post(url);
