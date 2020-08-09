@@ -101,9 +101,15 @@ impl Session {
     }
 
     /// Makes a GET request. Includes cookie `user_session` if `include_cookie` is `true`.
-    pub(crate) fn get(&self, url: &str, include_cookie: bool) -> reqwest::RequestBuilder {
+    pub(crate) fn get(
+        &self,
+        url: &str,
+        options: impl Into<Option<RequestOptions>>,
+    ) -> reqwest::RequestBuilder {
+        let options = options.into().unwrap_or_default();
+
         let mut req = self.client.get(url);
-        if include_cookie && self.cookie_user_session.is_some() {
+        if options.cookie_user_session && self.cookie_user_session.is_some() {
             req = req.header(
                 "Cookie",
                 &format!(
@@ -115,12 +121,16 @@ impl Session {
         req
     }
     /// Gets html and extracts data from it.
-    pub(crate) async fn get_data<T>(&self, url: &str, include_cookie: bool) -> Result<T>
+    pub(crate) async fn get_data<T>(
+        &self,
+        url: &str,
+        options: impl Into<Option<RequestOptions>>,
+    ) -> Result<T>
     where
         T: html_extractor::HtmlExtractor,
     {
         let html_str = self
-            .get(url, include_cookie)
+            .get(url, options)
             .send()
             .await
             .with_context(|| format!("cannot fetch from `{}`", url))
@@ -137,10 +147,10 @@ impl Session {
     pub(crate) async fn get_json(
         &self,
         url: &str,
-        include_cookie: bool,
+        options: impl Into<Option<RequestOptions>>,
     ) -> Result<serde_json::Value> {
         let json_str = self
-            .get(url, include_cookie)
+            .get(url, options)
             .send()
             .await
             .with_context(|| format!("cannot fetch from `{}`", url))
@@ -153,9 +163,15 @@ impl Session {
         Ok(json)
     }
     /// Makes a POST request. Includes cookie `user_session` if `include_cookie` is `true`.
-    pub(crate) fn post(&self, url: &str, include_cookie: bool) -> reqwest::RequestBuilder {
+    pub(crate) fn post(
+        &self,
+        url: &str,
+        options: impl Into<Option<RequestOptions>>,
+    ) -> reqwest::RequestBuilder {
+        let options = options.into().unwrap_or_default();
+
         let mut req = self.client.post(url);
-        if include_cookie && self.cookie_user_session.is_some() {
+        if options.cookie_user_session && self.cookie_user_session.is_some() {
             req = req.header(
                 "Cookie",
                 &format!(
@@ -180,6 +196,17 @@ impl Into<reqwest::header::HeaderValue> for Language {
             Language::Japanese => reqwest::header::HeaderValue::from_static("ja"),
             Language::English => reqwest::header::HeaderValue::from_static("en"),
             Language::Chinese => reqwest::header::HeaderValue::from_static("zh"),
+        }
+    }
+}
+
+pub(crate) struct RequestOptions {
+    pub cookie_user_session: bool,
+}
+impl Default for RequestOptions {
+    fn default() -> Self {
+        RequestOptions {
+            cookie_user_session: true,
         }
     }
 }

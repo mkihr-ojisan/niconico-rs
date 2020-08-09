@@ -2,7 +2,13 @@ use crate::*;
 
 pub async fn login(session: &mut Session, email_or_tel: &str, password: &str) -> Result<()> {
     let response = session
-        .post("https://account.nicovideo.jp/login/redirector", false)
+        .post(
+            "https://account.nicovideo.jp/login/redirector",
+            RequestOptions {
+                cookie_user_session: false,
+                ..Default::default()
+            },
+        )
         .form(&[("mail_tel", email_or_tel), ("password", password)])
         .send()
         .await?;

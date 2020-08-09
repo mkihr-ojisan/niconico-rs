@@ -13,6 +13,7 @@ pub use user::User;
 use anyhow::{anyhow, bail, ensure, Context, Result};
 use chrono::{DateTime, FixedOffset};
 use futures::Stream;
+use session::RequestOptions;
 use std::{
     borrow::Cow,
     future::Future,
