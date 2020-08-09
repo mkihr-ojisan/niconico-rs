@@ -1,6 +1,7 @@
 use crate::*;
 
 pub mod details;
+pub mod following_user;
 
 /// Represents a user.
 #[derive(Debug, Clone, Copy, Eq, PartialEq, Hash)]
@@ -33,5 +34,33 @@ impl User {
     /// ```
     pub async fn fetch_details(self, session: &Session) -> Result<details::UserDetails> {
         details::UserDetails::fetch(session, self).await
+    }
+
+    /// Fetched the list of users the login user is following.
+    ///
+    /// # Examples
+    /// ```
+    /// # use niconico::*;
+    /// use futures::StreamExt;
+    /// # const USER_AGENT: &str = concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION"));
+    /// # #[tokio::main]
+    /// # async fn main() -> anyhow::Result<()> {
+    /// # let mut session = Session::new(USER_AGENT, Language::Japanese);
+    /// # session.set_cookie_user_session(env!("NICO_SID"));
+    ///
+    /// let mut login_user_followings = User::LoginUser.stream_following_users(&session);
+    /// while let Some(user) = login_user_followings.next().await {
+    ///    println!("{:#?}", user);
+    /// }
+    ///
+    /// let mut user_2_followings = User::UserId(2).stream_following_users(&session);
+    /// while let Some(user) = user_2_followings.next().await {
+    ///    println!("{:#?}", user);
+    /// }
+    /// # Ok(())
+    /// # }
+    /// ```
+    pub fn stream_following_users(self, session: &Session) -> following_user::FollowingUserStream {
+        following_user::FollowingUserStream::new(session)
     }
 }
